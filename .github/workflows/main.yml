@@ -1,0 +1,49 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+
+      - name: Increase patch version
+        id: bump_version
+        run: |
+          current_version=$(cat version.txt)
+          IFS='.' read -r -a version_parts <<< "$current_version"
+          new_patch=$((version_parts[2]+1))
+          new_version="${version_parts[0]}.${version_parts[1]}.$new_patch"
+          echo "$new_version" > version.txt
+          echo "::set-output name=new_version::$new_version"
+
+      - name: Build JAR
+        run: |
+          # Your build command here
+          mvn clean package
+
+      - name: Build Docker image
+        run: |
+          docker build -t myapp:${{ steps.bump_version.outputs.new_version }} .
+          docker build -t myapp:latest .
+
+      - name: Push Docker image
+        run: |
+          docker push myapp:${{ steps.bump_version.outputs.new_version }}
+          docker push myapp:latest
+
+      - name: Deploy image
+        # Add your deployment steps here, such as deploying to Kubernetes or a server
+        # Example: kubectl apply -f deployment.yaml

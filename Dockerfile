@@ -10,7 +10,7 @@ COPY src/ ./src/
 
 # Build the project using Maven
 RUN mvn clean package
-ARG VERSION=1.0.0
+ARG VERSION
 RUN mvn -B versions:set -DnewVersion=$VERSION -DgenerateBackupPoms=false
 
 # Use an OpenJDK image as the final image for running the application

@@ -44,6 +44,6 @@ jobs:
           docker push myapp:${{ steps.bump_version.outputs.new_version }}
           docker push myapp:latest
 
-      - name: Deploy image
+      #- name: Deploy image
         # Add your deployment steps here, such as deploying to Kubernetes or a server
         # Example: kubectl apply -f deployment.yaml

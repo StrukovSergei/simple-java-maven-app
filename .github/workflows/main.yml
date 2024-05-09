@@ -47,7 +47,6 @@ jobs:
       - name: Terraform Apply
         id:   apply
         run: |
-          cd tf-example/
           terraform init
           terraform validate
           terraform plan 

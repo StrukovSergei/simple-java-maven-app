@@ -1,18 +1,9 @@
-terraform {
 
-required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 4.16"
-    }
-  }
-}
 
 data "aws_ami" "ubuntu" {
     most_recent = true
     owners = ["767398057060"] # Canonical
 }
-
 provider "aws" {
   region  = "eu-west-3"
   profile = "default"

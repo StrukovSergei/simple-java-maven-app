@@ -19,16 +19,22 @@ jobs:
           distribution: 'adopt'
           java-version: '11'
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v5
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
         with:
-          context: . 
-          push: true
-          tags: strukovsergei/test-rep:myapp-${{ github.run_number }}
-          build-args: VERSION=1.0.${{ github.run_number }}
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-
+  
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          build-args: VERSION=1.0.${{ github.run_number }}
+          context: .
+          push: true
+          tags: test-rep:githubapp-${{ github.run_number }}
+        env:
+          IMAGE_NAME: githubapp
+          DOCKER_REPO: strukovsergei/test-rep
       #- name: Deploy image
         # Add your deployment steps here, such as deploying to Kubernetes or a server
       

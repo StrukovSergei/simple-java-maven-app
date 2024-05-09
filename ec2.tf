@@ -8,10 +8,7 @@ required_providers {
   }
 }
 
-data "aws_ami" "ubuntu" {
-    most_recent = true
-    owners = ["767398057060"] # Canonical
-}
+
 
 provider "aws" {
   region  = "eu-west-3"

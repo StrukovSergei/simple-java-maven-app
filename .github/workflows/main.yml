@@ -22,7 +22,6 @@ jobs:
       - name: Build Docker image
         run: |
           docker build --build-arg VERSION=1.0.${{ github.run_number }} -t myapp:$${{ github.run_number }} .
-          docker build -t myapp:latest .
 
       - name: Push Docker image
         run: |

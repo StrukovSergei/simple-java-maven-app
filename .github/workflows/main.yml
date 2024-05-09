@@ -19,20 +19,11 @@ jobs:
           distribution: 'adopt'
           java-version: '11'
 
-      - name: Increase patch version
-        id: bump_version
-        run: |
-          current_version=$(cat version.txt)
-          IFS='.' read -r -a version_parts <<< "$current_version"
-          new_patch=$((version_parts[2]+1))
-          new_version="${version_parts[0]}.${version_parts[1]}.$new_patch"
-          echo "$new_version" > version.txt
-          echo "::set-output name=new_version::$new_version"
-
       - name: Build JAR
         run: |
           # Your build command here
           mvn clean package
+          mvn -B versions:set -DnewVersion=${{ github.event.release.tag_name }} -DgenerateBackupPoms=false
 
       - name: Build Docker image
         run: |

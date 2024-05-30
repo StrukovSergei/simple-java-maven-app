@@ -93,17 +93,32 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+  
+      - name: Build Docker Image
+        run: docker build -t strukovsergei/test-rep:githubapp-1.0.${{ github.run_number }} .
 
-      - name: Enable Docker Content Trust
-        run: echo 'DOCKER_CONTENT_TRUST=1' >> $GITHUB_ENV
+      - name: Download Cosign
+        run: |
+          curl -LO https://github.com/sigstore/cosign/releases/latest/download/cosign-linux-amd64
+          chmod +x cosign-linux-amd64
+          sudo mv cosign-linux-amd64 /usr/local/bin/cosign
 
-      - name: Build and Push Docker Image
-        uses: docker/build-push-action@v5
-        with:
-          build-args: VERSION=1.0.${{ github.run_number }}
-          context: .
-          push: true
-          tags: strukovsergei/test-rep:githubapp-1.0.${{ github.run_number }}
+      - name: Generate Cosign Key Pair (only needed for local setup, not in CI)
+        run: |
+          echo "${{ secrets.COSIGN_PRIVATE_KEY }}" > cosign.key
+          echo "${{ secrets.COSIGN_PUBLIC_KEY }}" > cosign.pub
+
+      - name: Sign Docker Image
+        env:
+          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+        run: |
+          cosign sign --key cosign.key strukovsergei/test-rep:githubapp-1.0.${{ github.run_number }}
+
+      - name: Verify Docker Image
+        run: cosign verify --key cosign.pub strukovsergei/test-rep:githubapp-1.0.${{ github.run_number }}
+
+      - name: Push Docker Image
+        run: docker push strukovsergei/test-rep:githubapp-1.0.${{ github.run_number }}
 
   provision-ec2:
     runs-on: ubuntu-latest

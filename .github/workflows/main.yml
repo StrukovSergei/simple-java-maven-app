@@ -118,7 +118,7 @@ jobs:
         env:
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
         run: |
-          cosign sign --key cosign.key ${{ env.IMAGE_DIGEST }}
+          cosign sign -y --key cosign.key ${{ env.IMAGE_DIGEST }}
 
       - name: Verify Docker Image
         run: cosign verify --key cosign.pub ${{ env.IMAGE_DIGEST }}

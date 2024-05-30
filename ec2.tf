@@ -20,6 +20,9 @@ resource "aws_instance" "instance_from_registry_sec_group" {
   instance_type          = "t2.micro"
   vpc_security_group_ids = ["sg-0dae6c351255f9e7e"]
   key_name               = "app-ssh-key"
+  root_block_device {
+      encrypted = true
+  }
   tags = {
     Name = "java-app"
   }

@@ -9,12 +9,10 @@ COPY pom.xml .
 COPY src/ ./src/
 
 # Build the project using Maven
-RUN mvn clean package
-ARG VERSION
-RUN mvn -B versions:set -DnewVersion=$VERSION -DgenerateBackupPoms=false
-
-# List the contents of the target directory for debugging
-RUN ls -l /app/target
+RUN mvn clean package && \
+    mvn -B versions:set -DnewVersion=$VERSION -DgenerateBackupPoms=false && \
+    # List the contents of the target directory for debugging
+    ls -l /app/target
 
 # Use an OpenJDK image as the final image for running the application
 FROM openjdk:11-jre-slim

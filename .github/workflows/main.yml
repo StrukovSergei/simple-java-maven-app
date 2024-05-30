@@ -35,6 +35,7 @@ jobs:
             exit 1
           fi
           mvn versions:set -DnewVersion=$NEW_VERSION -DgenerateBackupPoms=false
+          git pull
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
           git commit -am "Bump version to $NEW_VERSION"

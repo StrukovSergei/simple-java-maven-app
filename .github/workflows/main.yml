@@ -95,7 +95,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
   
       - name: Build Docker Image
-        run: docker build -t strukovsergei/test-rep:githubapp-1.0.${{ github.run_number }} .
+        run: docker build --build-arg VERSION=${{ steps.determine_branch_and_commit_count.outputs.version }} -t strukovsergei/test-rep:githubapp-1.0.${{ github.run_number }} .
 
       - name: Download Cosign
         run: |

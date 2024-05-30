@@ -10,8 +10,10 @@ COPY src/ ./src/
 
 # Build the project using Maven
 RUN mvn clean package
+
+# Set the version using the build argument
 ARG VERSION
-RUN mvn -B versions:set -DnewVersion=$VERSION -DgenerateBackupPoms=false
+RUN mvn -B versions:set -DnewVersion=${VERSION} -DgenerateBackupPoms=false
 
 # List the contents of the target directory for debugging
 RUN ls -l /app/target

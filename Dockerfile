@@ -13,6 +13,9 @@ RUN mvn clean package
 ARG VERSION
 RUN mvn -B versions:set -DnewVersion=$VERSION -DgenerateBackupPoms=false
 
+# List the contents of the target directory for debugging
+RUN ls -l /app/target
+
 # Use an OpenJDK image as the final image for running the application
 FROM openjdk:11-jre-slim
 
@@ -20,7 +23,7 @@ FROM openjdk:11-jre-slim
 WORKDIR /app
 
 # Copy the built JAR file from the previous image to the final image
-COPY --from=build /app/target/my-app-1.0-SNAPSHOT.jar /app/your-app.jar
+COPY --from=build /app/target/*.jar /app/your-app.jar
 
 # Expose the ports your application uses (if any)
 # Example: Expose port 8080

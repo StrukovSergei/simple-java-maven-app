@@ -4,7 +4,7 @@
   <groupId>com.mycompany.app</groupId>
   <artifactId>my-app</artifactId>
   <packaging>jar</packaging>
-  <version>12.0.0</version>
+  <version>11.0.0</version>
   <name>my-app</name>
   <url>https://maven.apache.org</url>
   <dependencies>
@@ -70,11 +70,7 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <groupId>org.sonarsource.scanner.maven</groupId>
-        <artifactId>sonar-maven-plugin</artifactId>
-        <version>3.9.1.2184</version>
-      </plugin>
+      
     </plugins>
   </build>
 </project>

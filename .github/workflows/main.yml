@@ -123,6 +123,11 @@ jobs:
       - name: Verify Docker Image
         run: cosign verify --key cosign.pub ${{ env.IMAGE_DIGEST }}
 
+      - name: Pull and Verify Docker Image
+        run: |
+          docker pull ${{ env.IMAGE_DIGEST }}
+          cosign verify --key cosign.pub ${{ env.IMAGE_DIGEST }}
+
   provision-ec2:
     runs-on: ubuntu-latest
     steps:

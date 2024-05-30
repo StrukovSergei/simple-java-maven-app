@@ -93,6 +93,17 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Enable Docker Content Trust
+        run: echo 'DOCKER_CONTENT_TRUST=1' >> $GITHUB_ENV
+
+      - name: Set Docker Content Trust Variables
+        env:
+          DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE: ${{ secrets.DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE }}
+          DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE: ${{ secrets.DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE }}
+        run: |
+          echo "${{ secrets.DOCKER_CONTENT_TRUST_ROOT_PRIVATE_KEY }}" > ~/.docker/trust/private/root_key.pem
+          echo "${{ secrets.DOCKER_CONTENT_TRUST_REPOSITORY_PRIVATE_KEY }}" > ~/.docker/trust/private/repository_key.pem
   
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v5

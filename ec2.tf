@@ -21,7 +21,8 @@ resource "aws_instance" "instance_from_registry_sec_group" {
   vpc_security_group_ids = ["sg-0dae6c351255f9e7e"]
   key_name               = "app-ssh-key"
   metadata_options {
-	 http_tokens = "required"
+	  http_tokens = "required"
+    http_endpoint = "enabled"
 	}	
   root_block_device {
       encrypted = true

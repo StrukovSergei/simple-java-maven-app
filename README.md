@@ -130,7 +130,7 @@ This pipeline follows key DevSecOps principles, ensuring security at every stage
 
 ## Conclusion
 
-This pipeline implements CI/CD with a strong focus on security, leveraging the power of DevSecOps. It automates everything from vulnerability scanning to Docker image signing and cloud provisioning. Feel free to modify and expand the pipeline according to your project’s needs.
+This pipeline implements CI/CD with a strong focus on security, leveraging the power of DevSecOps. It automates everything from vulnerability scanning to Docker image signing and cloud provisioning.
 
 
 ## Authors
